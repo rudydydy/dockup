@@ -30,6 +30,7 @@ defmodule DockupUi.Router do
 
   scope "/", DockupUi do
     pipe_through [:browser, :with_current_user]
+    pipe_through :browser
 
     get "/deploy", DeploymentController, :new
     resources "/deployments", DeploymentController, only: [:new, :index, :show]
@@ -44,6 +45,7 @@ defmodule DockupUi.Router do
       put "/hibernate", DeploymentController, :hibernate
       put "/wake_up", DeploymentController, :wake_up
     end
+    get "/logs/:container_handle", LogController, :show
   end
 
   scope "/api", as: :api, alias: DockupUi.API do

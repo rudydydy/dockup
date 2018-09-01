@@ -46,6 +46,7 @@ defmodule DockupUi.Mixfile do
      {:poison, "~> 3.1.0"},
      {:ueberauth, "~> 0.4"},
      {:ueberauth_google, "~> 0.7"},
+     {:elastix, ">= 0.0.0"},
      {:dockup, in_umbrella: true}]
   end
 
