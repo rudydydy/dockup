@@ -36,4 +36,8 @@ defmodule DockupUi.DeploymentController do
       render(conn, "home.html", layout: {DockupUi.LayoutView, "home.html"})
     end
   end
+
+  def logs(conn, %{"id" => id}) do
+    render(conn, "logs.html", id: id)
+  end
 end

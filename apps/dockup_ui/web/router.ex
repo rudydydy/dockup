@@ -36,6 +36,7 @@ defmodule DockupUi.Router do
     resources "/deployments", DeploymentController, only: [:new, :index, :show]
     resources "/config", ConfigController, only: [:index]
     resources "/subdomains", SubdomainController, except: [:index, :show]
+    get "/logs/:id", DeploymentController, :logs
   end
 
   scope "/api", as: :api, alias: DockupUi.API do

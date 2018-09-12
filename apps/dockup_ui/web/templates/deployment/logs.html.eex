@@ -1,0 +1,4 @@
+<div id="logs_container"></div>
+<script type="text/javascript">
+    Deployment.mountDeploymentLogs("logs_container",'<%=raw  @id %>');
+</script>
