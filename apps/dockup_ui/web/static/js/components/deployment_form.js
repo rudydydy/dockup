@@ -9,6 +9,7 @@ class DeploymentForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      loading: true,
       groups: [],
       whitelisted_urls: [],
       deployment: null,
@@ -30,7 +31,7 @@ class DeploymentForm extends Component {
     xhr.onload = () => {
       if (xhr.status === 200) {
         let groups = JSON.parse(xhr.responseText).data;
-        this.setState({ groups: groups });
+        this.setState({ groups, loading: false });
       }
     };
     xhr.send();
@@ -103,6 +104,10 @@ class DeploymentForm extends Component {
   }
 
   render() {
+    if (this.state.loading) {
+      return <div>Loading...</div>
+    }
+
     const groupTitles = this.state.groups.map(({ title }) => title);
     const whitelistUrls = this.state.whitelisted_urls.map(({ git_url }) => git_url);
 
