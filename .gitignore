@@ -10,3 +10,5 @@ erl_crash.dump
 /workdir/whitelisted_urls
 /workdir/clones
 /.env
+start.sh
+.DS_Store
