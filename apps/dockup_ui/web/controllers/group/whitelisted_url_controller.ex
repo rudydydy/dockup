@@ -31,7 +31,7 @@ defmodule DockupUi.Group.WhitelistedUrlController do
     end
   end
 
-  def edit(conn, params = %{"id" => id}, group) do
+  def edit(conn, %{"id" => id}, group) do
     whitelisted_url = 
       group
       |> assoc(:whitelisted_urls)

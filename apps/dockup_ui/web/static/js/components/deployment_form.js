@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import $ from 'jquery';
+import GroupInput from './group_input';
 import GitUrlInput from './git_url_input';
 import FlashMessage from '../flash_message';
 import DeploymentCard from './deployment_card';
@@ -8,16 +9,31 @@ class DeploymentForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      groups: [],
+      whitelisted_urls: [],
       deployment: null,
       gitUrl: "",
       branch: ""
     }
 
+    this.handleGroupChange = this.handleGroupChange.bind(this);
     this.handleUrlChange = this.handleUrlChange.bind(this);
     this.handleDeployClick = this.handleDeployClick.bind(this);
-    this.urls = JSON.parse(this.props.urls);
+    // this.urls = JSON.parse(this.props.urls);
 
     this.connectToDeploymentsChannel();
+  }
+
+  componentDidMount() {
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', '/api/groups');
+    xhr.onload = () => {
+      if (xhr.status === 200) {
+        let groups = JSON.parse(xhr.responseText).data;
+        this.setState({ groups: groups });
+      }
+    };
+    xhr.send();
   }
 
   connectToDeploymentsChannel() {
@@ -59,6 +75,15 @@ class DeploymentForm extends Component {
     });
   }
 
+  handleGroupChange(selectedGroup) {
+    const groupIndex = this.state.groups.findIndex((group) => selectedGroup == group.title);
+    if (groupIndex > -1) {
+      this.setState({ 
+        whitelisted_urls: this.state.groups[groupIndex].whitelisted_urls
+      });
+    }
+  }
+
   handleUrlChange(url) {
     this.setState({gitUrl: url});
   }
@@ -78,13 +103,19 @@ class DeploymentForm extends Component {
   }
 
   render() {
+    const groupTitles = this.state.groups.map(({ title }) => title);
+    const whitelistUrls = this.state.whitelisted_urls.map(({ git_url }) => git_url);
+
     return (
       <div className="c-header--dockup">
         <div className="c-container">
           <div className="c-header--dockup-form">
             <form className="c-form">
               <div className="c-form-group">
-                <GitUrlInput urls={this.urls} onUrlChange={this.handleUrlChange}/>
+                <GroupInput groups={groupTitles} onGroupChange={this.handleGroupChange}/>
+              </div>
+              <div className="c-form-group">
+                <GitUrlInput urls={whitelistUrls} onUrlChange={this.handleUrlChange}/>
               </div>
               <div className="c-form-group">
                 <input className="c-form-control" placeholder="Git branch" id="branch" onChange={

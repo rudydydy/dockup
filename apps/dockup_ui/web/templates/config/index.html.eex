@@ -22,12 +22,12 @@
         <tr>
           <th><%= group.title %> group</th>
           <th class="u-tar">
-            <%= link "Edit group", 
-                  to: group_path(@conn, :edit, group), 
-                  class: "c-btn c-btn--primary c-btn--xs jc-modal" %>
             <%= link "New whitelist", 
                   to: group_whitelisted_url_path(@conn, :new, group), 
                   class: "c-btn c-btn--primary c-btn--xs jc-modal" %>
+            <%= link "Edit", 
+                  to: group_path(@conn, :edit, group), 
+                  class: "c-btn c-btn--default c-btn--xs jc-modal" %>
             <%= link "Delete", 
                   to: group_path(@conn, :delete, group), 
                   method: :delete,

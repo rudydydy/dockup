@@ -30,7 +30,7 @@ defmodule DockupUi.Router do
     resources "/config", ConfigController, only: [:index]
     resources "/whitelisted_urls", WhitelistedUrlController, except: [:index, :show]
 
-    resources "/groups", GroupController, alias: Group do
+    resources "/groups", GroupController, alias: Group, except: [:index, :show] do
       resources "/whitelisted_urls", WhitelistedUrlController, except: [:index, :show]
     end
   end
@@ -44,6 +44,8 @@ defmodule DockupUi.Router do
     end
     resources "/github_webhook", GithubWebhookController, only: [:create]
     resources "/bitbucket_webhook", BitbucketWebhookController, only: [:create]
+    
+    resources "/groups", GroupController, only: [:index]
   end
 
   scope "/auth", DockupUi do
