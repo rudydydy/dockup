@@ -85,7 +85,8 @@ class DeploymentForm extends Component {
     if (groupIndex > -1) {
       this.setState({ 
         group: this.state.groups[groupIndex].id,
-        whitelisted_urls: this.state.groups[groupIndex].whitelisted_urls
+        whitelisted_urls: this.state.groups[groupIndex].whitelisted_urls,
+        gitUrl: '',
       });
     } else {
       this.setState({ group: '', whitelisted_urls: [] });

@@ -27,7 +27,7 @@ defmodule DockupUi.Group.WhitelistedUrlController do
         |> put_flash(:info, "Whitelisted url created successfully.")
         |> redirect(to: config_path(conn, :index))
       {:error, changeset} ->
-        render(conn, "new.html", changeset: changeset)
+        render(conn, "new.html", group: group, changeset: changeset)
     end
   end
 
@@ -56,7 +56,7 @@ defmodule DockupUi.Group.WhitelistedUrlController do
         |> put_flash(:info, "Whitelisted url updated successfully.")
         |> redirect(to: config_path(conn, :index))
       {:error, changeset} ->
-        render(conn, "edit.html", whitelisted_url: whitelisted_url, changeset: changeset)
+        render(conn, "edit.html", group: group, whitelisted_url: whitelisted_url, changeset: changeset)
     end
   end
 
