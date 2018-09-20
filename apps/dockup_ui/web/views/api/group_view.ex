@@ -16,6 +16,7 @@ defmodule DockupUi.API.GroupView do
   def render("whitelisted_url.json", %{whitelisted_url: whitelisted_url}) do
     %{
       id: whitelisted_url.id,
+      name: whitelisted_url.name,
       git_url: whitelisted_url.git_url
     }
   end

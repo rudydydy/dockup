@@ -7,6 +7,12 @@
     <% end %>
 
     <div class="c-form-group">
+      <%= label f, :name %>
+      <%= text_input f, :name, class: "c-form-control" %>
+      <%= error_tag f, :name %>
+    </div>
+
+    <div class="c-form-group">
       <%= label f, :git_url %>
       <%= text_input f, :git_url, class: "c-form-control" %>
       <%= error_tag f, :git_url %>

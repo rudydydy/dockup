@@ -4,6 +4,7 @@ defmodule DockupUi.WhitelistedUrl do
   alias DockupUi.Group
 
   schema "whitelisted_urls" do
+    field :name, :string
     field :git_url, :string
 
     belongs_to :group, Group
@@ -16,8 +17,8 @@ defmodule DockupUi.WhitelistedUrl do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:git_url])
-    |> validate_required([:git_url])
+    |> cast(params, [:name, :git_url])
+    |> validate_required([:name, :git_url])
     |> unique_constraint(:git_url)
   end
 end

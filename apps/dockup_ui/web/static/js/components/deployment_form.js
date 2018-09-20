@@ -13,6 +13,7 @@ class DeploymentForm extends Component {
       groups: [],
       whitelisted_urls: [],
       deployment: null,
+      groupId: "",
       gitUrl: "",
       branch: ""
     }
@@ -76,17 +77,33 @@ class DeploymentForm extends Component {
     });
   }
 
-  handleGroupChange(selectedGroup) {
-    const groupIndex = this.state.groups.findIndex((group) => selectedGroup == group.title);
+  handleGroupChange(event) {
+    const groupIndex = this.state.groups.findIndex((group) => (
+      event.target.value == group.id
+    ));
+
     if (groupIndex > -1) {
       this.setState({ 
+        group: this.state.groups[groupIndex].id,
         whitelisted_urls: this.state.groups[groupIndex].whitelisted_urls
       });
+    } else {
+      this.setState({ group: '', whitelisted_urls: [] });
     }
   }
 
-  handleUrlChange(url) {
-    this.setState({gitUrl: url});
+  handleUrlChange(event) {
+    const whitelistIndex = this.state.whitelisted_urls.findIndex((whitelist) => (
+      event.target.value == whitelist.git_url
+    ));
+
+    if (whitelistIndex > -1) {
+      this.setState({
+        gitUrl: this.state.whitelisted_urls[whitelistIndex].git_url
+      });
+    } else {
+      this.setState({ gitUrl: '' });
+    }
   }
 
   handleBranchChange(branch) {
@@ -95,6 +112,38 @@ class DeploymentForm extends Component {
 
   validInputs() {
     return (this.state.gitUrl.length > 0 && this.state.branch.length > 0);
+  }
+
+  renderWhitelistField() {
+    if (this.state.group !== '' && this.state.whitelisted_urls.length > 0) {
+      return (
+        <div className="c-form-group">
+          <div className="c-form-control">
+            <img className="c-form-icon" src="/icons/icon-git.svg" />
+            <select
+              value={this.state.gitUrl}
+              onChange={this.handleUrlChange}
+              className="c-select__input"
+              style={{ width: '100%', height: '35px' }}
+            >
+              <option value="">Select a name</option>
+              {
+                this.state.whitelisted_urls.map((whitelist) => (
+                  <option 
+                    key={whitelist.id} 
+                    value={whitelist.git_url}
+                  >
+                    {whitelist.name} - {whitelist.git_url}
+                  </option>
+                ))
+              }
+            </select>
+          </div>
+        </div>
+      );
+    }
+
+    return null;
   }
 
   renderDeploymentCard() {
@@ -108,20 +157,35 @@ class DeploymentForm extends Component {
       return <div>Loading...</div>
     }
 
-    const groupTitles = this.state.groups.map(({ title }) => title);
-    const whitelistUrls = this.state.whitelisted_urls.map(({ git_url }) => git_url);
-
     return (
       <div className="c-header--dockup">
         <div className="c-container">
           <div className="c-header--dockup-form">
             <form className="c-form">
               <div className="c-form-group">
-                <GroupInput groups={groupTitles} onGroupChange={this.handleGroupChange}/>
+                <div className="c-form-control">
+                  <img className="c-form-icon" src="/icons/icon-git.svg" />
+                  <select 
+                    value={this.state.group}
+                    onChange={this.handleGroupChange}
+                    className="c-select__input"
+                    style={{ width: '100%', height: '35px' }}
+                  >
+                    <option value="">Select a group</option>
+                    {
+                      this.state.groups.map((group) => (
+                        <option 
+                          key={group.id} 
+                          value={group.id}
+                        >
+                          {group.title}
+                        </option>
+                      ))
+                    }
+                  </select>
+                </div>
               </div>
-              <div className="c-form-group">
-                <GitUrlInput urls={whitelistUrls} onUrlChange={this.handleUrlChange}/>
-              </div>
+              {this.renderWhitelistField()}
               <div className="c-form-group">
                 <input className="c-form-control" placeholder="Git branch" id="branch" onChange={
                   (event) => { this.handleBranchChange(event.target.value)}

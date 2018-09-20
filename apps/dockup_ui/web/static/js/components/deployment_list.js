@@ -75,15 +75,14 @@ class DeploymentList extends Component {
   }
 
   render() {
-    const { filter, deployments } = this.state;
+    const { filter } = this.state;
     const deploymentLists = this.renderDeployments(filter);
-    const startedDeploymentLists = this.renderDeployments('started');
-
+    
     return (
       <div className="container">
         <div className="c-list" style={{ marginTop: `150px` }}>
           <h2 className="u-cl-purple">
-            Deployment: {`${startedDeploymentLists.length}/${deployments.length}`}
+            Deployment: {deploymentLists.length}
           </h2>
           <select 
             value={this.state.filter}
