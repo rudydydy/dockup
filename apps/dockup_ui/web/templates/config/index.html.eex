@@ -2,52 +2,63 @@
   <div class="c-header--dockup-text">
     <div class="clearfix">
       <h2 class="c-str-21 u-pull">Configure</h2>
-      <%= unless @whitelisted_urls == [] do %>
+      <%= unless @groups == [] do %>
         <div class="u-push">
-          <%= link "New whitelisted url", to: whitelisted_url_path(@conn, :new), class: "c-btn c-btn--primary jc-modal" %>
+          <%= link "Add new group", to: group_path(@conn, :new), class: "c-btn c-btn--primary jc-modal" %>
         </div>
       <% end %>
     </div>
-    <h3 class="u-mb-5 c-reg-16">Whitelisted URLs</h3>
+    <h3 class="u-mb-5 c-reg-16">Group</h3>
     <div class="c-reg-16">Dockup allows you to deploy only whitelisted Git URLs. This is to prevent malicious code being run inside docker containers
       on your servers.</div>
   </div>
 </header>
 <div class="c-container-700">
-  <table class="c-table u-mt-20">
-    <thead>
-      <tr>
-        <th>Git url
-          <span class="c-sorting">
-            <i class="fa fa-sort-up"></i>
-            <i class="fa fa-sort-down"></i>
-          </span>
-        </th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <%= for whitelisted_url <- @whitelisted_urls do %>
+  <br />
+  <h2>10 Limit</h2>
+  <%= for group <- @groups do %>
+    <table class="c-table u-mt-20">
+      <thead>
         <tr>
-          <td><%= whitelisted_url.git_url %></td>
-          <td class="u-tar">
-            <%= link "Edit", to: whitelisted_url_path(@conn, :edit, whitelisted_url), class: "c-btn c-btn--default c-btn--xs jc-modal" %>
-            <%= link "Delete", to: whitelisted_url_path(@conn, :delete, whitelisted_url),
-                               method: :delete,
-                               data: [confirm: "Are you sure?"],
-                               class: "c-btn c-btn--default c-btn--xs jc-modal" %>
-          </td>
+          <th><%= group.title %> group</th>
+          <th class="u-tar">
+            <%= link "Edit group", 
+                  to: group_path(@conn, :edit, group), 
+                  class: "c-btn c-btn--primary c-btn--xs jc-modal" %>
+            <%= link "New whitelist", 
+                  to: group_whitelisted_url_path(@conn, :new, group), 
+                  class: "c-btn c-btn--primary c-btn--xs jc-modal" %>
+            <%= link "Delete", 
+                  to: group_path(@conn, :delete, group), 
+                  method: :delete,
+                  data: [confirm: "Are you sure?"],              
+                  class: "c-btn c-btn--default c-btn--xs jc-modal" %>
+          </th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        <%= for whitelisted_url <- group.whitelisted_urls do %>
+          <tr>
+            <td><%= whitelisted_url.git_url %></td>
+            <td class="u-tar">
+              <%= link "Edit", to: group_whitelisted_url_path(@conn, :edit, group, whitelisted_url), class: "c-btn c-btn--default c-btn--xs jc-modal" %>
+              <%= link "Delete", to: group_whitelisted_url_path(@conn, :delete, group, whitelisted_url),
+                                method: :delete,
+                                data: [confirm: "Are you sure?"],
+                                class: "c-btn c-btn--default c-btn--xs jc-modal" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
 
   <%# Blank slate %>
-  <%= if @whitelisted_urls == [] do %>
+  <%= if @groups == [] do %>
     <div class="u-tac"><img class="u-mb-30 u-mt-40" src="/icons/icon-whitelist.svg">
-      <h2 class="u-mb-5">Belum ada whitelist url</h2>
-      <p class="u-mb-30">Daftar whitelist url yang sudah dibuat akan tampil disini.</p>
-      <%= link "Add new whitelisted url", to: whitelisted_url_path(@conn, :new), class: "c-btn c-btn--primary jc-modal" %>
+      <h2 class="u-mb-5">Belum ada group</h2>
+      <p class="u-mb-30">Daftar group yang sudah dibuat akan tampil disini.</p>
+      <%= link "Add new group", to: group_path(@conn, :new), class: "c-btn c-btn--primary jc-modal" %>
     </div>
   <% end %>
 </div>

@@ -29,6 +29,10 @@ defmodule DockupUi.Router do
     resources "/deployments", DeploymentController, only: [:new, :index, :show]
     resources "/config", ConfigController, only: [:index]
     resources "/whitelisted_urls", WhitelistedUrlController, except: [:index, :show]
+
+    resources "/groups", GroupController, alias: Group do
+      resources "/whitelisted_urls", WhitelistedUrlController, except: [:index, :show]
+    end
   end
 
   scope "/api", as: :api, alias: DockupUi.API do

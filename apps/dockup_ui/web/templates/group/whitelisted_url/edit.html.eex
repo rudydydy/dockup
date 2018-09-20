@@ -1,0 +1,9 @@
+<div class="c-container-700">
+  <h2>Edit whitelisted url</h2>
+
+  <%= render "form.html", changeset: @changeset,
+                          action: group_whitelisted_url_path(@conn, :update, @group, @whitelisted_url) %>
+
+
+  <span><%= link "Back", to: config_path(@conn, :index), class: "c-btn c-btn--default c-btn--xs" %></span>
+</div>

@@ -5,10 +5,12 @@ class DeploymentList extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      filter: '',
       deployments: []
     }
     this.getDeployments();
     this.connectToDeploymentsChannel();
+    this.handleChangeFilter = this.handleChangeFilter.bind(this);
   }
 
   getDeployments() {
@@ -59,17 +61,38 @@ class DeploymentList extends Component {
     }
   }
 
+  handleChangeFilter(event) {
+    this.setState({ filter: event.target.value });
+  }
+
+  renderDeployments() {
+    const { filter, deployments } = this.state;
+    return this.state.deployments
+      .filter(({ status }) => status.includes(filter))
+      .map((deployment) => (
+      <DeploymentCard key={deployment.id} deployment={deployment}/>
+    ));
+  }
+
   render() {
+    const deploymentLists = this.renderDeployments();
+
     return (
       <div className="container">
         <div className="c-list" style={{marginTop: 150 + 'px'}}>
-          <h2 className="u-cl-purple">Recent deployment</h2>
+          <h2 className="u-cl-purple">Total deployment: {deploymentLists.length}</h2>
+          <select 
+            value={this.state.filter}
+            onChange={this.handleChangeFilter}
+            className="c-select__input"
+          >
+            <option value="">All</option>
+            <option value="started">Started</option>
+            <option value="starting">Pending</option>
+            <option value="deleted">Deleted</option>
+          </select>
           <ul className="c-list--wrapper">
-            {this.state.deployments.map((deployment) => {
-              return (
-                <DeploymentCard key={deployment.id} deployment={deployment}/>
-              )
-            })}
+            {deploymentLists}
           </ul>
         </div>
       </div>

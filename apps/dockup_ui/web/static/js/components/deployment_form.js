@@ -79,9 +79,9 @@ class DeploymentForm extends Component {
 
   render() {
     return (
-    <div className="c-header--dockup">
-      <div className="c-container">
-        <div className="c-header--dockup-form">
+      <div className="c-header--dockup">
+        <div className="c-container">
+          <div className="c-header--dockup-form">
             <form className="c-form">
               <div className="c-form-group">
                 <GitUrlInput urls={this.urls} onUrlChange={this.handleUrlChange}/>
@@ -96,7 +96,6 @@ class DeploymentForm extends Component {
                 <button type="submit" onClick={this.handleDeployClick} disabled={!this.validInputs()} className="c-btn c-btn--primary c-btn--block">Deploy</button>
               </div>
             </form>
-
           </div>
         </div>
       </div>

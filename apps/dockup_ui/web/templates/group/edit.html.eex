@@ -1,0 +1,7 @@
+<div class="c-container-700">
+  <h2>Edit Group</h2>
+
+  <%= render "form.html", Map.put(assigns, :action, group_path(@conn, :update, @group)) %>
+
+  <span><%= link "Back", to: config_path(@conn, :index), class: "c-btn c-btn--default c-btn--xs" %></span>
+</div>

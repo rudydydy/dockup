@@ -1,5 +1,7 @@
 alias DockupUi.{
   Deployment,
+  Group,
+  WhitelistedUrl,
   Repo,
   DeploymentStatusUpdateService
 }
