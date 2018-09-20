@@ -79,18 +79,20 @@ class DeploymentList extends Component {
 
     return (
       <div className="container">
-        <div className="c-list" style={{marginTop: 150 + 'px'}}>
+        <div className="c-list" style={{ marginTop: `150px` }}>
           <h2 className="u-cl-purple">Total deployment: {deploymentLists.length}</h2>
           <select 
             value={this.state.filter}
             onChange={this.handleChangeFilter}
             className="c-select__input"
+            style={{ width: '100%', height: '35px' }}
           >
             <option value="">All</option>
             <option value="started">Started</option>
             <option value="starting">Pending</option>
             <option value="deleted">Deleted</option>
           </select>
+          <hr />
           <ul className="c-list--wrapper">
             {deploymentLists}
           </ul>
