@@ -65,9 +65,9 @@ class DeploymentList extends Component {
     this.setState({ filter: event.target.value });
   }
 
-  renderDeployments() {
-    const { filter, deployments } = this.state;
-    return this.state.deployments
+  renderDeployments(filter) {
+    const { deployments } = this.state;
+    return deployments
       .filter(({ status }) => status.includes(filter))
       .map((deployment) => (
       <DeploymentCard key={deployment.id} deployment={deployment}/>
@@ -75,12 +75,16 @@ class DeploymentList extends Component {
   }
 
   render() {
-    const deploymentLists = this.renderDeployments();
+    const { filter, deployments } = this.state;
+    const deploymentLists = this.renderDeployments(filter);
+    const startedDeploymentLists = this.renderDeployments('started');
 
     return (
       <div className="container">
         <div className="c-list" style={{ marginTop: `150px` }}>
-          <h2 className="u-cl-purple">Total deployment: {deploymentLists.length}</h2>
+          <h2 className="u-cl-purple">
+            Deployment: {`${startedDeploymentLists.length}/${deployments.length}`}
+          </h2>
           <select 
             value={this.state.filter}
             onChange={this.handleChangeFilter}
